@@ -1,0 +1,50 @@
+.navbar-nav {
+    .nav-link {
+        padding: 21px 15px !important;
+        color: $light-default-text-color;
+    }
+
+    .nav-item{
+        #user-dropdown{
+            padding: 17px 14px !important;
+        }
+        .dropdown-toggle{
+            &:after{
+                display: none !important;
+            }
+        }
+    }
+
+    .form-check{
+        margin-left: 1em;
+
+        .form-check-label, .form-check-input{
+            color: $light-default-text-color;
+            cursor: pointer;
+        }
+    }
+
+    .sidebar-toggle-btn{
+        padding-left: .8rem !important;
+    }
+}
+
+.navbar-custom{
+    background: $white;
+    top: 0;
+    right: 0;
+    left: 250px;
+    min-height: 66px;
+    border-bottom: 1px solid $light-default-border;
+    padding: 0;
+}
+
+.logo-collapsed{
+    display: none;
+}
+
+.language-dropdown{
+    height: 300px;
+    overflow-y: scroll;
+    min-width: 170px;
+}
