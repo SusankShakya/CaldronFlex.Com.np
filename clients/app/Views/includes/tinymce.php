@@ -1,0 +1,1 @@
+<script src="https://cdn.tiny.cloud/1/<?php echo trim(get_setting("tinymce_api_key")); ?>/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
