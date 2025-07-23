@@ -1,0 +1,95 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "5fd3b1cce0aa01889573ade7d8726d61",
+    "packages": [
+        {
+            "name": "ddeboer/imap",
+            "version": "1.21.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ddeboer/imap.git",
+                "reference": "efc1455d26235320694192eba5ebeabf8484a9a4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ddeboer/imap/zipball/efc1455d26235320694192eba5ebeabf8484a9a4",
+                "reference": "efc1455d26235320694192eba5ebeabf8484a9a4",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-iconv": "*",
+                "ext-imap": "*",
+                "ext-libxml": "*",
+                "ext-mbstring": "*",
+                "php": "~8.3.0 || ~8.4.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.64.0",
+                "laminas/laminas-mail": "^2.25.1",
+                "phpstan/phpstan": "^1.12.4",
+                "phpstan/phpstan-phpunit": "^1.4.0",
+                "phpstan/phpstan-strict-rules": "^1.6.1",
+                "phpunit/phpunit": "^11.3.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ddeboer\\Imap\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David de Boer",
+                    "email": "david@ddeboer.nl"
+                },
+                {
+                    "name": "Filippo Tessarotto",
+                    "email": "zoeslam@gmail.com"
+                },
+                {
+                    "name": "Community contributors",
+                    "homepage": "https://github.com/ddeboer/imap/graphs/contributors"
+                }
+            ],
+            "description": "Object-oriented IMAP for PHP",
+            "keywords": [
+                "email",
+                "imap",
+                "mail"
+            ],
+            "support": {
+                "issues": "https://github.com/ddeboer/imap/issues",
+                "source": "https://github.com/ddeboer/imap/tree/1.21.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Slamdunk",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/ddeboer",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-10-15T10:03:38+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {},
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {},
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
+}

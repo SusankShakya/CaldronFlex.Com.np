@@ -1,0 +1,2 @@
+<li data-tab="tickets_list"><a class="<?php echo ($active_tab == 'tickets_list') ? 'active' : ''; ?>" href="<?php echo_uri('tickets/index/'); ?>"><?php echo app_lang("tickets_list"); ?></a></li>
+<li data-tab="ticket_templates"><a class="<?php echo ($active_tab == 'ticket_templates') ? 'active' : ''; ?>" href="<?php echo_uri('tickets/ticket_templates/'); ?>"><?php echo app_lang("short_ticket_templates"); ?></a></li>

@@ -1,0 +1,53 @@
+<?php
+
+namespace App\Models;
+
+class Team_model extends Crud_model {
+
+    protected $table = null;
+
+    function __construct() {
+        $this->table = 'team';
+        parent::__construct($this->table);
+    }
+
+    function get_details($options = array()) {
+        $team_table = $this->db->prefixTable('team');
+        $where = "";
+        $id = $this->_get_clean_value($options, "id");
+        if ($id) {
+            $where = " AND $team_table.id=$id";
+        }
+
+        $sql = "SELECT $team_table.*
+        FROM $team_table
+        WHERE $team_table.deleted=0 $where";
+        return $this->db->query($sql);
+    }
+
+    function get_members($team_ids = array()) {
+        $team_table = $this->db->prefixTable('team');
+        $team_ids = implode(",", $team_ids);
+        $team_ids = $this->_get_clean_value($team_ids);
+
+        $sql = "SELECT $team_table.members
+        FROM $team_table
+        WHERE $team_table.deleted=0 AND id in($team_ids)";
+        return $this->db->query($sql);
+    }
+
+    function get_id_and_title($options = array()) {
+        $team_table = $this->db->prefixTable('team');
+        $where = "";
+        $id = $this->_get_clean_value($options, "id");
+        if ($id) {
+            $where = " AND $team_table.id=$id";
+        }
+
+        $sql = "SELECT $team_table.id, $team_table.title
+        FROM $team_table
+        WHERE $team_table.deleted=0 $where";
+        return $this->db->query($sql);
+    }
+
+}

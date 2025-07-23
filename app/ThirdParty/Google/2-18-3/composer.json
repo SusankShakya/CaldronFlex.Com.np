@@ -1,0 +1,19 @@
+{
+    "require": {
+        "google/apiclient": "2.18.3"
+    },
+    "scripts": {
+        "pre-autoload-dump": "Google\\Task\\Composer::cleanup"
+    },
+    "extra": {
+        "google/apiclient-services": [
+            "Drive",
+            "Calendar",
+            "Gmail",
+            "Oauth2"
+        ]
+    },
+    "replace": {
+        "phpseclib/phpseclib": "*"
+    }
+}

@@ -1,0 +1,595 @@
+# Implementation Plan - Caldron Flex Business Solution
+## Single-Platform Rise CRM Architecture with Agile Development Approach
+
+### Overview
+This implementation plan outlines the development phases for Caldron Flex Business Solution using a unified Rise CRM platform approach with Agile methodology. The plan focuses on enhancing Rise CRM's built-in Store module to meet all printing business requirements through 12 two-week sprints over 24 weeks.
+
+### Development Methodology
+- **Approach**: Agile with Scrum framework
+- **Sprint Duration**: 2 weeks
+- **Total Sprints**: 12 sprints
+- **Total Timeline**: 24 weeks (6 months)
+- **Team Size**: 3-4 developers, 1 project manager, 1 QA tester
+- **Daily Standups**: 15 minutes at 9:00 AM NPT
+- **Sprint Reviews**: Last Friday of each sprint
+- **Retrospectives**: Following sprint review
+
+### Current Rise CRM Store Capabilities Assessment
+- **Existing Store Controller**: Full e-commerce functionality with product listing, cart management, order processing
+- **Items Model**: Product management with categories, pricing, descriptions, and client portal visibility
+- **Orders Model**: Complete order lifecycle management with tax calculations, discounts, and status tracking
+- **Built-in Features**: Cart functionality, order processing, payment tracking, client portal integration
+- **File Management**: Support for file uploads and attachments with orders
+
+### Architecture Decision
+**Single Platform**: Rise CRM with enhanced Store module
+**Domain Structure**: 
+- Main CRM: caldronflex.com.np
+- Store Frontend: store.caldronflex.com.np (served by Rise CRM)
+- Unified database and user management
+
+## Sprint Planning Overview
+
+### Sprint Timeline
+| Sprint | Dates | Phase Coverage | Key Deliverables |
+|--------|-------|----------------|------------------|
+| Sprint 1 | Jan 27 - Feb 9, 2025 | Phase 1 | Store setup, basic configuration |
+| Sprint 2 | Feb 10 - Feb 23, 2025 | Phase 2 (Part 1) | Product variants, pricing engine |
+| Sprint 3 | Feb 24 - Mar 9, 2025 | Phase 2 (Part 2) & Phase 3 (Part 1) | Enhanced orders, inventory basics |
+| Sprint 4 | Mar 10 - Mar 23, 2025 | Phase 4 | Advanced File Management |
+| Sprint 5 | Mar 24 - Apr 6, 2025 | Phase 4 (Part 1) | WhatsApp integration, task automation |
+| Sprint 6 | Apr 7 - Apr 20, 2025 | Phase 4 (Part 2) & Phase 5 (Part 1) | Notifications, performance optimization |
+| Sprint 7 | Apr 21 - May 4, 2025 | Phase 5 (Part 2) | AR/VR plugin foundation |
+| Sprint 8 | May 5 - May 18, 2025 | Phase 5 (Part 3) | Mobile API, analytics plugin |
+| Sprint 9 | May 19 - Jun 1, 2025 | Phase 6 (Part 1) | Design annotation, file processing |
+| Sprint 10 | Jun 2 - Jun 15, 2025 | Phase 6 (Part 2) | Queue management, quality control |
+| Sprint 11 | Jun 16 - Jun 29, 2025 | Phase 7 (Part 1) | Complaint system, support integration |
+| Sprint 12 | Jun 30 - Jul 13, 2025 | Phase 7 (Part 2) | Delivery management, loyalty program |
+
+## Detailed Sprint Breakdown
+
+### Sprint 1 (Jan 27 - Feb 9, 2025) - Foundation Setup
+**Phase Coverage**: Phase 1 - Rise CRM Store Module Setup & Verification
+
+#### Tasks (Story Points)
+1. **CFBS-001**: Configure store.caldronflex.com.np subdomain routing (5 SP)
+2. **CFBS-002**: Set up store visibility and access permissions (3 SP)
+3. **CFBS-003**: Configure client portal store access (5 SP)
+4. **CFBS-004**: Create printing service product categories (3 SP)
+5. **CFBS-005**: Set up basic flex banner products (5 SP)
+6. **CFBS-006**: Configure file upload limits (500MB) (8 SP)
+7. **CFBS-007**: Implement file type restrictions (3 SP)
+8. **CFBS-008**: Test basic cart and order functionality (5 SP)
+
+**Sprint Goal**: Establish functional store with basic product catalog and file upload capability
+**Quality Gate**: All basic store functions operational, file uploads working for 500MB files
+**Testing Window**: Day 12-14 (Feb 7-9)
+**Deployment**: Production deployment on Feb 9
+
+### Sprint 2 (Feb 10 - Feb 23, 2025) - Printing Business Core
+**Phase Coverage**: Phase 2 (Part 1) - Product Variants & Dynamic Pricing
+
+#### Tasks (Story Points)
+1. **CFBS-009**: Design and create variants database schema (5 SP) - **Done**
+   - Created migration file `2025_01_27_000001_create_variant_tables.php`
+   - Implemented tables: item_variants, item_variant_combinations, variant_price_history
+2. **CFBS-010**: Extend Items model for variant support (8 SP) - **Done**
+   - Created `Variants_model.php` with full CRUD operations
+   - Extended `Items_model.php` with variant support methods
+3. **CFBS-011**: Update Store controller for variant selection UI (8 SP) - **Done**
+   - Created `Item_variants.php` controller with complete variant management
+   - Implemented views: index.php, modal_form.php, variant_selector.php
+   - Created `variants.js` for frontend functionality
+4. **CFBS-012**: Implement area-based pricing calculations (8 SP) - **Done**
+   - Created `area_calculator.js` with visual area input supporting multiple shapes
+   - Implemented `price_calculator.js` for real-time price calculations with AJAX
+5. **CFBS-013**: Create pricing rules engine (5 SP) - **Done**
+   - Created `Pricing_engine.php` library with caching and rule priority system
+   - Implemented area-based calculations, quantity tiers, and material-specific pricing
+6. **CFBS-014**: Add bulk discount calculations (3 SP) - **Done**
+   - Integrated quantity-based discounts in pricing engine
+   - Added tier evaluation and automatic discount application
+
+**Sprint Goal**: Complete product variant system with dynamic pricing
+**Quality Gate**: Variant selection working, pricing calculations accurate
+**Testing Window**: Day 12-14 (Feb 21-23)
+**Deployment**: Staging deployment on Feb 23
+
+### Sprint 2 Progress Dashboard (Feb 10 - Feb 23, 2025)
+================================
+**Completed**: 6/6 tasks (37 story points)
+**In Progress**: 0 tasks (0 story points)
+**Blocked**: 0 tasks (0 story points)
+
+**Key Achievements**:
+- Implemented complete product variant system with database schema, models, controllers, and UI
+- Created comprehensive pricing engine with area-based calculations and caching
+- Built pricing rules management system with conflict detection and testing interface
+- Developed custom quotes module with full lifecycle management
+- Created interactive JavaScript components for area calculation and real-time pricing
+- Integrated with existing Rise CRM patterns (Crud_model, Security_Controller)
+
+**Technical Highlights**:
+- **Database**: Created 3 new tables (pricing_rules, custom_quotes, pricing_calculations_log)
+- **Libraries**: Built Pricing_engine.php with efficient caching for 3GB RAM constraint
+- **Models**: Implemented Pricing_rules_model and Custom_quotes_model with CRUD operations
+- **Service Layer**: Created Price_calculator_service for real-time calculations
+- **Controllers**: Built Security_Controller-based controllers for pricing and quotes
+- **Views**: Developed 7 comprehensive views with bilingual support structure
+- **JavaScript**: Created jQuery plugins for visual area input and price calculations
+
+**Issues/Blockers**: None
+
+**Next Sprint Priorities**:
+- Custom dimension input for flex banners (CFBS-015)
+- Material and finish selections (CFBS-016)
+- Design file validation system (CFBS-017)
+
+### Sprint 3 (Feb 24 - Mar 9, 2025) - Enhanced Features
+**Phase Coverage**: Phase 2 (Part 2) & Phase 3 (Part 1)
+
+#### Tasks (Story Points)
+1. **CFBS-015**: Add custom dimension input for flex banners (5 SP)
+2. **CFBS-016**: Implement material and finish selections (5 SP)
+3. **CFBS-017**: Create design file validation system (8 SP)
+4. **CFBS-018**: Implement printing specifications capture (5 SP)
+5. **CFBS-019**: Build basic inventory tracking system (8 SP)
+6. **CFBS-020**: Add low stock alerts (5 SP)
+
+**Sprint Goal**: Complete printing-specific features and basic inventory
+**Quality Gate**: Custom products fully configurable, inventory tracking operational
+**Testing Window**: Day 12-14 (Mar 7-9)
+**Deployment**: Production deployment on Mar 9
+
+### Sprint 4 (Mar 10 - Mar 23, 2025) - Advanced File Management
+**Phase Coverage**: Phase 4 - Advanced File Management
+
+#### Tasks (Story Points)
+1. **CFBS-019**: Create database migration for file management tables (8 SP) - **Done**
+2. **CFBS-020**: Implement Image Processing Service (13 SP) - **Done**
+3. **CFBS-021**: Create Chunked Upload Service (13 SP) - **Done**
+4. **CFBS-022**: Implement File Management Models (8 SP) - **Done**
+5. **CFBS-023**: Create Controllers for file management (8 SP) - **Done**
+6. **CFBS-024**: Build Views and UI Components (13 SP) - **Done**
+
+**Sprint Goal**: Complete advanced file management system with chunked uploads, image processing, and annotations.
+**Quality Gate**: File uploads up to 500MB functional, TIFF/PDF processing working, annotation system operational.
+**Testing Window**: Day 12-14 (Mar 21-23)
+**Deployment**: Staging deployment on Mar 23
+
+### Sprint 5 (Mar 24 - Apr 6, 2025) - Integration Phase 1
+**Phase Coverage**: Phase 4 (Part 1) - WhatsApp & Task Integration
+
+#### Tasks (Story Points)
+1. **CFBS-027**: Integrate WhatsApp proxy for notifications (8 SP)
+2. **CFBS-028**: Create order status notification templates (3 SP)
+3. **CFBS-029**: Link store orders to Rise CRM tasks (8 SP)
+4. **CFBS-030**: Implement automatic task creation (5 SP)
+5. **CFBS-031**: Add designer assignment workflow (5 SP)
+6. **CFBS-032**: Create production queue management (8 SP)
+
+**Sprint Goal**: Complete WhatsApp integration and task automation
+**Quality Gate**: WhatsApp notifications working, tasks auto-created
+**Testing Window**: Day 12-14 (Apr 4-6)
+**Deployment**: Production deployment on Apr 6
+
+### Sprint 6 (Apr 7 - Apr 20, 2025) - Optimization & Plugin Foundation
+**Phase Coverage**: Phase 4 (Part 2) & Phase 5 (Part 1)
+
+#### Tasks (Story Points)
+1. **CFBS-033**: Implement real-time order notifications (5 SP)
+2. **CFBS-034**: Add email automation for order lifecycle (5 SP)
+3. **CFBS-035**: Optimize database queries for performance (8 SP)
+4. **CFBS-036**: Implement caching layer (8 SP)
+5. **CFBS-037**: Design AR/VR plugin architecture (5 SP)
+6. **CFBS-038**: Create plugin framework structure (5 SP)
+
+**Sprint Goal**: Complete notification system and start plugin development
+**Quality Gate**: Performance metrics met, plugin framework established
+**Testing Window**: Day 12-14 (Apr 18-20)
+**Deployment**: Staging deployment on Apr 20
+
+### Sprint 7 (Apr 21 - May 4, 2025) - AR/VR Development
+**Phase Coverage**: Phase 5 (Part 2) - AR/VR Preview Plugin
+
+#### Tasks (Story Points)
+1. **CFBS-039**: Implement 3D product visualization engine (13 SP)
+2. **CFBS-040**: Add virtual placement capabilities (8 SP)
+3. **CFBS-041**: Create mobile AR viewer interface (8 SP)
+4. **CFBS-042**: Integrate with product catalog (5 SP)
+
+**Sprint Goal**: Complete AR/VR preview functionality
+**Quality Gate**: AR preview working on mobile devices
+**Testing Window**: Day 12-14 (May 2-4)
+**Deployment**: Beta release on May 4
+
+### Sprint 8 (May 5 - May 18, 2025) - Mobile API & Analytics
+**Phase Coverage**: Phase 5 (Part 3) - API Development & Analytics
+
+#### Tasks (Story Points)
+1. **CFBS-043**: Create REST API architecture (5 SP)
+2. **CFBS-044**: Implement authentication endpoints (5 SP)
+3. **CFBS-045**: Build mobile-specific order APIs (8 SP)
+4. **CFBS-046**: Create push notification system (5 SP)
+5. **CFBS-047**: Implement sales analytics dashboard (8 SP)
+6. **CFBS-048**: Add customer behavior tracking (5 SP)
+
+**Sprint Goal**: Complete mobile API and analytics plugin
+**Quality Gate**: API documentation complete, analytics operational
+**Testing Window**: Day 12-14 (May 16-18)
+**Deployment**: API release on May 18
+
+### Sprint 9 (May 19 - Jun 1, 2025) - Design Workflow
+**Phase Coverage**: Phase 6 (Part 1) - Design Annotation & File Processing
+
+#### Tasks (Story Points)
+1. **CFBS-049**: Implement file annotation system (8 SP)
+2. **CFBS-050**: Create design review workflow (8 SP)
+3. **CFBS-051**: Add revision tracking system (5 SP)
+4. **CFBS-052**: Implement TIFF to JPG conversion (8 SP)
+5. **CFBS-053**: Add automatic file optimization (5 SP)
+
+**Sprint Goal**: Complete design annotation and file processing
+**Quality Gate**: Annotation system tested, file conversion working
+**Testing Window**: Day 12-14 (May 30 - Jun 1)
+**Deployment**: Production deployment on Jun 1
+
+### Sprint 10 (Jun 2 - Jun 15, 2025) - Production Management
+**Phase Coverage**: Phase 6 (Part 2) - Queue Management & Quality Control
+
+#### Tasks (Story Points)
+1. **CFBS-054**: Implement production queue system (8 SP)
+2. **CFBS-055**: Add automatic designer assignment (5 SP)
+3. **CFBS-056**: Create workload balancing algorithm (8 SP)
+4. **CFBS-057**: Implement quality checkpoints (5 SP)
+5. **CFBS-058**: Add defect tracking system (5 SP)
+6. **CFBS-059**: Create quality metrics reporting (5 SP)
+
+**Sprint Goal**: Complete production management system
+**Quality Gate**: Queue management operational, quality tracking active
+**Testing Window**: Day 12-14 (Jun 13-15)
+**Deployment**: Staging deployment on Jun 15
+
+### Sprint 11 (Jun 16 - Jun 29, 2025) - Customer Service Enhancement
+**Phase Coverage**: Phase 7 (Part 1) - Complaint Handling & Support
+
+#### Tasks (Story Points)
+1. **CFBS-060**: Create complaint registration workflow (8 SP)
+2. **CFBS-061**: Implement complaint tracking system (5 SP)
+3. **CFBS-062**: Add customer satisfaction surveys (5 SP)
+4. **CFBS-063**: Integrate support tickets with orders (8 SP)
+5. **CFBS-064**: Add live chat capabilities (8 SP)
+
+**Sprint Goal**: Complete complaint management and support integration
+**Quality Gate**: Complaint system tested, support features operational
+**Testing Window**: Day 12-14 (Jun 27-29)
+**Deployment**: Production deployment on Jun 29
+
+### Sprint 12 (Jun 30 - Jul 13, 2025) - Final Features & Polish
+**Phase Coverage**: Phase 7 (Part 2) - Delivery & Loyalty
+
+#### Tasks (Story Points)
+1. **CFBS-065**: Implement delivery tracking system (8 SP)
+2. **CFBS-066**: Add delivery confirmation workflow (5 SP)
+3. **CFBS-067**: Create points-based loyalty system (8 SP)
+4. **CFBS-068**: Add promotional campaign management (5 SP)
+5. **CFBS-069**: Implement referral tracking (5 SP)
+6. **CFBS-070**: Final system testing and optimization (5 SP)
+
+**Sprint Goal**: Complete all features, system ready for launch
+**Quality Gate**: All features tested, performance benchmarks met
+**Testing Window**: Day 10-14 (Jul 9-13)
+**Deployment**: Final production deployment on Jul 13
+
+## Progress Tracking Format
+
+### Task Progress Template
+```
+Task: [CFBS-XXX] - [Task Name]
+Status: Done
+Summary: [First line: What was implemented]
+         [Second line: Impact or key technical detail]
+
+Example:
+Task: CFBS-001 - Configure store.caldronflex.com.np subdomain routing
+Status: Done
+Summary: Configured Apache virtual host to route store subdomain to Rise CRM.
+         Store now accessible at store.caldronflex.com.np with SSL enabled.
+
+Sprint 2 Completed Tasks:
+
+Task: CFBS-007 - Database migration for pricing tables
+Status: Done
+Summary: Created migration file 2025_02_10_000001_create_pricing_tables.php with pricing infrastructure.
+         Implemented tables: pricing_rules, custom_quotes, pricing_calculations_log with proper indexes.
+
+Task: CFBS-008 - Pricing Engine Library
+Status: Done
+Summary: Built Pricing_engine.php library with area-based calculations and efficient caching.
+         Handles rule priority, quantity tiers, material-specific pricing, and 3GB RAM constraint.
+
+Task: CFBS-009 - Pricing Rules and Custom Quotes Models
+Status: Done
+Summary: Created Pricing_rules_model and Custom_quotes_model extending Crud_model.
+         Implemented conflict detection, quote lifecycle management, and invoice conversion.
+
+Task: CFBS-010 - Price Calculator Service
+Status: Done
+Summary: Developed Price_calculator_service.php for real-time price calculations.
+         Integrates variants, taxes, discounts, and provides detailed price breakdowns.
+
+Task: CFBS-011 - Pricing Rules and Custom Quotes Controllers
+Status: Done
+Summary: Built Pricing_rules.php and Custom_quotes.php controllers extending Security_Controller.
+         Implemented CRUD operations, testing interface, and client/staff permission handling.
+
+Task: CFBS-012 - Views and JavaScript Components
+Status: Done
+Summary: Created 7 comprehensive views with bilingual support structure.
+         Built area_calculator.js and price_calculator.js for interactive pricing functionality.
+```
+
+### Sprint Progress Dashboard
+```
+Sprint X Progress (Date Range)
+================================
+Completed: X/Y tasks (XX story points)
+In Progress: X tasks (XX story points)
+Blocked: X tasks (XX story points)
+
+Key Achievements:
+- [Achievement 1]
+- [Achievement 2]
+
+Issues/Blockers:
+- [Issue 1 with mitigation plan]
+- [Issue 2 with mitigation plan]
+
+Next Sprint Priorities:
+- [Priority 1]
+- [Priority 2]
+```
+
+## Quality Gates Between Phases
+
+### Phase 1 → Phase 2 Gate (Sprint 1 → 2)
+**Criteria**:
+- Store accessible and functional
+- Basic product catalog operational
+- File upload system tested with 500MB files
+- Client portal integration verified
+- Performance baseline established
+
+**Testing Requirements**:
+- Load testing: 30 concurrent users
+- File upload: 10 simultaneous 500MB uploads
+- Order processing: Complete 50 test orders
+- Browser compatibility: Chrome, Firefox, Safari
+
+### Phase 2 → Phase 3 Gate (Sprint 3 → 4)
+**Criteria**:
+- Product variants fully functional
+- Dynamic pricing accurate within 0.1%
+- Custom dimensions working
+- All printing options configurable
+- Database performance optimized
+
+**Testing Requirements**:
+- Pricing accuracy: 100 test calculations
+- Variant combinations: All permutations tested
+- UI/UX testing: 5 user acceptance tests
+- Integration testing: End-to-end order flow
+
+### Phase 3 → Phase 4 Gate (Sprint 4 → 5)
+**Criteria**:
+- Payment processing operational
+- Inventory tracking accurate
+- Client-specific features working
+- Order management optimized
+- Financial reporting accurate
+
+**Testing Requirements**:
+- Payment testing: All payment methods
+- Inventory accuracy: Stock level verification
+- Multi-client testing: 10 different client scenarios
+- Performance testing: 100 concurrent orders
+
+### Phase 4 → Phase 5 Gate (Sprint 6 → 7)
+**Criteria**:
+- WhatsApp notifications delivered
+- Task automation functioning
+- Performance targets met
+- Integration points stable
+- Error rates < 0.1%
+
+**Testing Requirements**:
+- Integration testing: 1000 notifications
+- Load testing: 3x normal volume
+- API testing: All endpoints verified
+- Security testing: Penetration test passed
+
+### Phase 5 → Phase 6 Gate (Sprint 8 → 9)
+**Criteria**:
+- Plugin architecture stable
+- Mobile API documented
+- Analytics providing insights
+- AR/VR features functional
+- Performance maintained
+
+**Testing Requirements**:
+- API testing: Full test suite
+- Mobile testing: iOS/Android verification
+- Plugin testing: Load/unload cycles
+- Analytics accuracy: Data validation
+
+### Phase 6 → Phase 7 Gate (Sprint 10 → 11)
+**Criteria**:
+- Design workflow streamlined
+- File processing automated
+- Queue management efficient
+- Quality control effective
+- User satisfaction > 90%
+
+**Testing Requirements**:
+- Workflow testing: 50 complete cycles
+- File processing: Various formats/sizes
+- Queue testing: Stress test scenarios
+- Quality metrics: Baseline established
+
+## Risk Mitigation and Rollback Procedures
+
+### Risk Matrix
+
+| Risk | Probability | Impact | Mitigation Strategy | Rollback Plan |
+|------|-------------|--------|-------------------|---------------|
+| File size performance issues | Medium | High | Progressive upload, CDN integration | Revert to smaller file limits |
+| WhatsApp API limits | Low | Medium | Rate limiting, queue management | Email fallback system |
+| Database performance degradation | Medium | High | Query optimization, indexing | Database rollback scripts ready |
+| User adoption challenges | Medium | Medium | Phased rollout, training program | Maintain legacy system access |
+| Integration failures | Low | High | Extensive testing, monitoring | Feature flags for quick disable |
+| Security vulnerabilities | Low | Critical | Security audits, penetration testing | Immediate patch deployment |
+
+### Rollback Procedures
+
+#### Database Rollback
+1. **Backup Schedule**: Daily automated backups at 2 AM NPT
+2. **Rollback Process**:
+   - Stop application servers
+   - Restore database from backup
+   - Run migration rollback scripts
+   - Verify data integrity
+   - Restart application servers
+3. **Time to Rollback**: < 30 minutes
+4. **Data Loss Window**: Maximum 24 hours
+
+#### Code Rollback
+1. **Version Control**: Git tags for each deployment
+2. **Rollback Process**:
+   - Identify last stable version
+   - Deploy previous version via CI/CD
+   - Clear application caches
+   - Verify functionality
+3. **Time to Rollback**: < 15 minutes
+4. **Testing**: Automated smoke tests post-rollback
+
+#### Feature Rollback
+1. **Feature Flags**: All major features behind flags
+2. **Rollback Process**:
+   - Disable feature flag
+   - Clear related caches
+   - Notify affected users
+   - Monitor system stability
+3. **Time to Rollback**: < 5 minutes
+4. **Impact**: Isolated to specific feature
+
+## Task Dependencies and Critical Path
+
+### Critical Path Analysis
+```mermaid
+graph LR
+    A[Store Setup] --> B[Product Variants]
+    B --> C[Dynamic Pricing]
+    C --> D[Order Processing]
+    D --> E[Payment System]
+    E --> F[WhatsApp Integration]
+    F --> G[Task Automation]
+    G --> H[Performance Optimization]
+    
+    style A fill:#f9f,stroke:#333,stroke-width:4px
+    style B fill:#f9f,stroke:#333,stroke-width:4px
+    style C fill:#f9f,stroke:#333,stroke-width:4px
+    style D fill:#f9f,stroke:#333,stroke-width:4px
+```
+
+### Major Dependencies
+
+#### Technical Dependencies
+1. **Store Setup** → All other features
+2. **Product Variants** → Dynamic Pricing
+3. **Order Processing** → Task Automation
+4. **File Upload** → Design Annotation
+5. **User Management** → All modules
+
+#### Integration Dependencies
+1. **WhatsApp Proxy** → Notification System
+2. **Task System** → Production Queue
+3. **Payment Processing** → Order Completion
+4. **Inventory** → Order Fulfillment
+5. **Analytics** → Reporting Dashboard
+
+#### Resource Dependencies
+1. **Database Schema** → All development
+2. **Server Configuration** → Performance features
+3. **SSL Certificates** → Security features
+4. **API Documentation** → Mobile development
+5. **Test Data** → Quality assurance
+
+## Testing and Deployment Strategy
+
+### Testing Windows
+
+#### Sprint Testing (Days 12-14)
+- **Day 12**: Development complete, code freeze
+- **Day 13**: QA testing, bug fixes
+- **Day 14**: UAT, deployment preparation
+
+#### Testing Types
+1. **Unit Testing**: 80% code coverage target
+2. **Integration Testing**: All API endpoints
+3. **Performance Testing**: Load and stress tests
+4. **Security Testing**: OWASP top 10
+5. **User Acceptance Testing**: Client scenarios
+
+### Deployment Windows
+
+#### Production Deployments
+- **Schedule**: Sunday mornings, 6-8 AM NPT
+- **Notification**: 48-hour advance notice
+- **Downtime**: Maximum 30 minutes
+- **Rollback Window**: 2 hours post-deployment
+
+#### Deployment Checklist
+1. [ ] Backup verification
+2. [ ] Release notes prepared
+3. [ ] Rollback scripts tested
+4. [ ] Monitoring alerts configured
+5. [ ] Support team briefed
+6. [ ] Client communication sent
+7. [ ] Feature flags configured
+8. [ ] Performance baselines recorded
+
+## Success Metrics and KPIs
+
+### Technical Metrics
+- **Uptime**: 99.9% availability
+- **Response Time**: < 3 seconds page load
+- **Error Rate**: < 0.1% of requests
+- **File Upload Success**: 99% completion rate
+- **API Performance**: < 500ms response time
+
+### Business Metrics
+- **Order Processing Time**: 40% reduction
+- **Customer Satisfaction**: > 95%
+- **System Adoption**: > 80% in 30 days
+- **Support Tickets**: 50% reduction
+- **Revenue Impact**: 25% increase in throughput
+
+### Development Metrics
+- **Sprint Velocity**: 35-40 story points
+- **Defect Rate**: < 5 per sprint
+- **Code Coverage**: > 80%
+- **Deployment Success**: > 95%
+- **Team Satisfaction**: > 8/10
+
+## Conclusion
+
+This comprehensive implementation plan provides a structured approach to transforming Caldron Flex Business Solution using Agile methodology. The 12-sprint plan ensures systematic development with regular deliveries, quality gates, and risk mitigation strategies. The single-platform Rise CRM architecture simplifies maintenance while providing all required functionality for the printing business.
+
+Key success factors:
+1. Regular sprint deliveries every 2 weeks
+2. Comprehensive testing at each phase
+3. Clear rollback procedures
+4. Strong focus on performance and user experience
+5. Systematic progress tracking and reporting
+
+The plan is designed to deliver a fully functional system by July 13, 2025, with minimal disruption to current operations and maximum value delivery throughout the development process.
