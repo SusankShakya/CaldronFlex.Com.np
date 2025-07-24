@@ -1,0 +1,45 @@
+{
+  "code_quality": {
+    "max_function_length": 50,
+    "max_cyclomatic_complexity": 10,
+    "min_variable_name_length": 3,
+    "require_documentation": true,
+    "max_line_length": 120,
+    "max_class_length": 300,
+    "max_parameters": 5,
+    "max_nesting_depth": 4
+  },
+  "security": {
+    "check_sql_injection": true,
+    "check_xss": true,
+    "require_input_validation": true,
+    "require_output_escaping": true,
+    "check_file_uploads": true,
+    "require_csrf_protection": true,
+    "check_authentication": true,
+    "check_authorization": true
+  },
+  "performance": {
+    "max_query_count": 10,
+    "require_caching": true,
+    "max_file_size_kb": 1000,
+    "max_response_time_ms": 500,
+    "require_lazy_loading": true,
+    "check_n_plus_one": true,
+    "require_pagination": true
+  },
+  "workflow": {
+    "commit_message_pattern": "^(feat|fix|docs|style|refactor|test|chore):",
+    "branch_pattern": "^(feature|bugfix|hotfix|release)/",
+    "min_pr_description_length": 50,
+    "require_issue_reference": true,
+    "require_tests": true,
+    "min_test_coverage": 80
+  },
+  "naming_conventions": {
+    "class_pattern": "^[A-Z][a-zA-Z0-9_]*$",
+    "method_pattern": "^[a-z][a-zA-Z0-9_]*$",
+    "constant_pattern": "^[A-Z][A-Z0-9_]*$",
+    "file_pattern": "^[a-zA-Z][a-zA-Z0-9_-]*\\.(php|js|css|html)$"
+  }
+}

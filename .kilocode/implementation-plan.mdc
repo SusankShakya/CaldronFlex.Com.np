@@ -1,0 +1,217 @@
+# Implementation Plan
+
+**Feature Name**: [Feature Name]
+**Start Date**: [YYYY-MM-DD]
+**Target Completion**: [YYYY-MM-DD]
+**Developer(s)**: [Name(s)]
+**Status**: [Planning/In Progress/Testing/Completed]
+
+## Overview
+[Brief description of what this feature/task accomplishes]
+
+## Prerequisites
+- [ ] Requirements reviewed and understood
+- [ ] Dependencies identified
+- [ ] Development environment ready
+- [ ] Related memory banks checked
+
+## Implementation Steps
+
+### Phase 1: Planning & Design
+#### Step 1.1: Review Technical Requirements
+- **Status**: [ ] Pending
+- **Estimated Time**: [X hours]
+- **Actual Time**: 
+- **Summary**: 
+  - Line 1: 
+  - Line 2: 
+
+#### Step 1.2: Architecture Design
+- **Status**: [ ] Pending
+- **Estimated Time**: [X hours]
+- **Actual Time**: 
+- **Summary**: 
+  - Line 1: 
+  - Line 2: 
+
+#### Step 1.3: Database Schema Design
+- **Status**: [ ] Pending
+- **Estimated Time**: [X hours]
+- **Actual Time**: 
+- **Summary**: 
+  - Line 1: 
+  - Line 2: 
+
+### Phase 2: Core Implementation
+#### Step 2.1: Database Migrations
+- **Status**: [ ] Pending
+- **Estimated Time**: [X hours]
+- **Actual Time**: 
+- **Summary**: 
+  - Line 1: 
+  - Line 2: 
+
+#### Step 2.2: Model Implementation
+- **Status**: [ ] Pending
+- **Estimated Time**: [X hours]
+- **Actual Time**: 
+- **Summary**: 
+  - Line 1: 
+  - Line 2: 
+
+#### Step 2.3: Controller Logic
+- **Status**: [ ] Pending
+- **Estimated Time**: [X hours]
+- **Actual Time**: 
+- **Summary**: 
+  - Line 1: 
+  - Line 2: 
+
+#### Step 2.4: API Endpoints
+- **Status**: [ ] Pending
+- **Estimated Time**: [X hours]
+- **Actual Time**: 
+- **Summary**: 
+  - Line 1: 
+  - Line 2: 
+
+### Phase 3: User Interface
+#### Step 3.1: View Templates
+- **Status**: [ ] Pending
+- **Estimated Time**: [X hours]
+- **Actual Time**: 
+- **Summary**: 
+  - Line 1: 
+  - Line 2: 
+
+#### Step 3.2: JavaScript/Frontend Logic
+- **Status**: [ ] Pending
+- **Estimated Time**: [X hours]
+- **Actual Time**: 
+- **Summary**: 
+  - Line 1: 
+  - Line 2: 
+
+#### Step 3.3: CSS/Styling
+- **Status**: [ ] Pending
+- **Estimated Time**: [X hours]
+- **Actual Time**: 
+- **Summary**: 
+  - Line 1: 
+  - Line 2: 
+
+### Phase 4: Testing
+#### Step 4.1: Unit Tests
+- **Status**: [ ] Pending
+- **Estimated Time**: [X hours]
+- **Actual Time**: 
+- **Summary**: 
+  - Line 1: 
+  - Line 2: 
+
+#### Step 4.2: Integration Tests
+- **Status**: [ ] Pending
+- **Estimated Time**: [X hours]
+- **Actual Time**: 
+- **Summary**: 
+  - Line 1: 
+  - Line 2: 
+
+#### Step 4.3: User Acceptance Testing
+- **Status**: [ ] Pending
+- **Estimated Time**: [X hours]
+- **Actual Time**: 
+- **Summary**: 
+  - Line 1: 
+  - Line 2: 
+
+### Phase 5: Documentation
+#### Step 5.1: Technical Documentation
+- **Status**: [ ] Pending
+- **Estimated Time**: [X hours]
+- **Actual Time**: 
+- **Summary**: 
+  - Line 1: 
+  - Line 2: 
+
+#### Step 5.2: User Documentation
+- **Status**: [ ] Pending
+- **Estimated Time**: [X hours]
+- **Actual Time**: 
+- **Summary**: 
+  - Line 1: 
+  - Line 2: 
+
+#### Step 5.3: Memory Bank Updates
+- **Status**: [ ] Pending
+- **Estimated Time**: [X hours]
+- **Actual Time**: 
+- **Summary**: 
+  - Line 1: 
+  - Line 2: 
+
+### Phase 6: Deployment
+#### Step 6.1: Staging Deployment
+- **Status**: [ ] Pending
+- **Estimated Time**: [X hours]
+- **Actual Time**: 
+- **Summary**: 
+  - Line 1: 
+  - Line 2: 
+
+#### Step 6.2: Production Deployment
+- **Status**: [ ] Pending
+- **Estimated Time**: [X hours]
+- **Actual Time**: 
+- **Summary**: 
+  - Line 1: 
+  - Line 2: 
+
+#### Step 6.3: Post-Deployment Verification
+- **Status**: [ ] Pending
+- **Estimated Time**: [X hours]
+- **Actual Time**: 
+- **Summary**: 
+  - Line 1: 
+  - Line 2: 
+
+## Completion Checklist
+- [ ] All steps marked as Done
+- [ ] Total time recorded
+- [ ] Memory banks updated
+- [ ] Documentation completed
+- [ ] Tests passing
+- [ ] Code reviewed
+- [ ] Deployed successfully
+
+## Notes & Learnings
+[Document any important notes, decisions, or learnings during implementation]
+
+## Related Documents
+- Architecture Decision: [Link to ADR if applicable]
+- Feature Memory: `.project_rules/memory-banks/feature-memory/[feature-name].md`
+- Error Solutions: `.project_rules/memory-banks/error-solutions/[related-errors].md`
+
+---
+
+## How to Use This Template
+
+1. **Copy this template** for each new feature/task
+2. **Fill in the header** information
+3. **Customize steps** based on your specific feature (add/remove as needed)
+4. **For each completed step**, update:
+   - Status: Change `[ ] Pending` to `[x] Done`
+   - Actual Time: Record time spent
+   - Summary: Write exactly 2 lines describing what was done
+5. **Keep it updated** throughout development
+6. **Review regularly** with team/stakeholders
+
+### Example of a Completed Step:
+```
+#### Step 2.1: Database Migrations
+- **Status**: [x] Done
+- **Estimated Time**: 2 hours
+- **Actual Time**: 3 hours
+- **Summary**: 
+  - Line 1: Created migration for user_preferences table with JSON column for settings
+  - Line 2: Added indexes on user_id and created_at for performance optimization
