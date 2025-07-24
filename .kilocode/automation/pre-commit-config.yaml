@@ -1,0 +1,81 @@
+# Pre-commit hook configuration
+# Install: pip install pre-commit
+# Setup: pre-commit install
+
+repos:
+  # General file checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: \.md$
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-xml
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: detect-private-key
+      - id: mixed-line-ending
+        args: ['--fix=lf']
+
+  # PHP checks
+  - repo: local
+    hooks:
+      - id: php-syntax-check
+        name: PHP Syntax Check
+        entry: php -l
+        language: system
+        files: \.php$
+        
+      - id: php-cs-fixer
+        name: PHP Coding Standards
+        entry: php-cs-fixer fix --dry-run --diff
+        language: system
+        files: \.php$
+        
+      - id: phpstan
+        name: PHPStan Static Analysis
+        entry: phpstan analyse
+        language: system
+        files: \.php$
+        pass_filenames: false
+
+  # JavaScript checks
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v8.35.0
+    hooks:
+      - id: eslint
+        files: \.(js|jsx)$
+        args: ['--fix']
+
+  # Security checks
+  - repo: local
+    hooks:
+      - id: security-check
+        name: Security Vulnerability Check
+        entry: .kilocode/automation/scripts/security-check.sh
+        language: script
+        files: \.(php|js|json)$
+
+  # Custom rule checks
+  - repo: local
+    hooks:
+      - id: check-user-rules
+        name: USER_RULES.md Compliance
+        entry: .kilocode/automation/scripts/check-user-rules.py
+        language: python
+        files: \.(php|js)$
+        
+      - id: check-implementation-plan
+        name: Implementation Plan Check
+        entry: .kilocode/automation/scripts/check-implementation-plan.sh
+        language: script
+        files: \.mdc$
+
+  # Prevent large files
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: check-added-large-files
+        args: ['--maxkb=1000']

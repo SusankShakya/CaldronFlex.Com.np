@@ -3,16 +3,19 @@
 namespace App\Controllers;
 
 use App\Libraries\Excel_import;
+use App\Services\PriceCalculatorService;
 
 class Items extends Security_Controller {
 
     use Excel_import;
 
     private $categories_id_by_title = array();
+    protected $price_calculator_service;
 
     function __construct() {
         parent::__construct();
         $this->init_permission_checker("order");
+        $this->price_calculator_service = new PriceCalculatorService();
     }
 
     protected function validate_access_to_items() {
@@ -338,6 +341,376 @@ class Items extends Security_Controller {
             }
         }
 
+/* Dynamic Pricing Endpoints */
+
+    /**
+     * Calculate dynamic price for an item
+     */
+    function calculate_price() {
+        $this->access_only_team_members();
+        $this->validate_access_to_items();
+
+        $this->validate_submitted_data(array(
+            "item_id" => "required|numeric",
+            "quantity" => "numeric",
+            "area" => "numeric"
+        ));
+
+        $item_id = $this->request->getPost('item_id');
+        $quantity = $this->request->getPost('quantity') ?: 1;
+        $area = $this->request->getPost('area');
+        $client_id = $this->request->getPost('client_id');
+        $variants_data = $this->request->getPost('variants_data');
+        $custom_fields = $this->request->getPost('custom_fields');
+
+        $calculation_data = array(
+            'item_id' => $item_id,
+            'quantity' => $quantity,
+            'area' => $area,
+            'client_id' => $client_id,
+            'variants_data' => $variants_data,
+            'custom_fields' => $custom_fields
+        );
+
+        $result = $this->price_calculator_service->calculate_item_price($calculation_data);
+
+        if ($result['success']) {
+            echo json_encode(array(
+                "success" => true, 
+                "price_data" => $result['price_data'],
+                "message" => app_lang('price_calculated_successfully')
+            ));
+        } else {
+            echo json_encode(array(
+                "success" => false, 
+                'message' => $result['error']
+            ));
+        }
+    }
+
+    /**
+     * Get applicable pricing rules for an item
+     */
+    function get_pricing_rules() {
+        $this->access_only_team_members();
+        $this->validate_access_to_items();
+
+        $this->validate_submitted_data(array(
+            "item_id" => "required|numeric"
+        ));
+
+        $item_id = $this->request->getPost('item_id');
+        $client_id = $this->request->getPost('client_id');
+
+        $result = $this->price_calculator_service->get_applicable_rules($item_id, $client_id);
+
+        if ($result['success']) {
+            echo json_encode(array(
+                "success" => true, 
+                "rules" => $result['rules']
+            ));
+        } else {
+            echo json_encode(array(
+                "success" => false, 
+                'message' => $result['error']
+            ));
+        }
+    }
+
+    /**
+     * Create custom quote from item
+     */
+    function create_custom_quote() {
+        $this->access_only_team_members();
+        $this->validate_access_to_items();
+
+        $this->validate_submitted_data(array(
+            "item_id" => "required|numeric",
+            "client_id" => "required|numeric"
+        ));
+
+        $quote_data = array(
+            'item_id' => $this->request->getPost('item_id'),
+            'client_id' => $this->request->getPost('client_id'),
+            'variants_data' => $this->request->getPost('variants_data'),
+            'calculation_data' => $this->request->getPost('calculation_data'),
+            'custom_fields' => $this->request->getPost('custom_fields'),
+            'notes' => $this->request->getPost('notes')
+        );
+
+        $result = $this->price_calculator_service->create_custom_quote($quote_data);
+
+        if ($result['success']) {
+            echo json_encode(array(
+                "success" => true, 
+                "quote_id" => $result['quote_id'],
+                "message" => app_lang('custom_quote_created_successfully')
+            ));
+        } else {
+            echo json_encode(array(
+                "success" => false, 
+                'message' => $result['error']
+            ));
+        }
+    }
+
+    /**
+     * Get price breakdown for an item
+     */
+    function get_price_breakdown() {
+        $this->access_only_team_members();
+        $this->validate_access_to_items();
+
+        $this->validate_submitted_data(array(
+            "item_id" => "required|numeric"
+        ));
+
+        $item_id = $this->request->getPost('item_id');
+        $quantity = $this->request->getPost('quantity') ?: 1;
+        $area = $this->request->getPost('area');
+        $client_id = $this->request->getPost('client_id');
+        $variants_data = $this->request->getPost('variants_data');
+
+        $calculation_data = array(
+            'item_id' => $item_id,
+            'quantity' => $quantity,
+            'area' => $area,
+            'client_id' => $client_id,
+            'variants_data' => $variants_data
+        );
+
+        $result = $this->price_calculator_service->get_price_breakdown($calculation_data);
+
+        if ($result['success']) {
+            echo json_encode(array(
+                "success" => true, 
+                "breakdown" => $result['breakdown']
+            ));
+        } else {
+            echo json_encode(array(
+                "success" => false, 
+                'message' => $result['error']
+            ));
+        }
+/**
+     * Get item variants for price calculation
+     */
+    public function get_item_variants() {
+        $this->access_only_allowed_members();
+        
+        $item_id = $this->request->getPost('item_id');
+        
+        if (!$item_id) {
+            echo json_encode(array("success" => false, "message" => app_lang('invalid_item')));
+            return;
+        }
+        
+        // Load Variants model
+        $Variants_model = model("App\Models\Variants_model");
+        
+        // Get variants for the item
+        $variants = $Variants_model->get_all_where(array(
+            "item_id" => $item_id,
+            "deleted" => 0,
+            "status" => 1
+        ))->getResult();
+        
+        $variants_data = array();
+        
+        foreach ($variants as $variant) {
+            $variant_data = array(
+                "id" => $variant->id,
+                "name" => $variant->variant_name,
+                "type" => $variant->variant_type,
+                "options" => array()
+            );
+            
+            // Parse variant values
+            $values = json_decode($variant->variant_value, true);
+            if (!is_array($values)) {
+                $values = explode(",", $variant->variant_value);
+            }
+            
+            foreach ($values as $value) {
+                $value = trim($value);
+                $price_impact = 0;
+                
+                // Check if there's a price modifier for this option
+                if ($variant->price_modifier_type && $variant->price_modifier_value) {
+                    // For simplicity, apply the same modifier to all options
+                    // In a real scenario, you might have different modifiers per option
+                    if ($variant->price_modifier_type === 'fixed') {
+                        $price_impact = $variant->price_modifier_value;
+                    }
+                }
+                
+                $variant_data['options'][] = array(
+                    "id" => $variant->id . "_" . $value,
+                    "name" => $value,
+                    "price_impact" => $price_impact
+                );
+            }
+            
+            $variants_data[] = $variant_data;
+        }
+        
+        echo json_encode(array(
+            "success" => true,
+            "variants" => $variants_data
+        ));
+    }
+    
+    /**
+     * Get variant price for combination
+     */
+    public function get_variant_price() {
+        $this->access_only_allowed_members();
+        
+        $item_id = $this->request->getPost('item_id');
+        $variants = $this->request->getPost('variants');
+        
+        if (!$item_id) {
+            echo json_encode(array("success" => false, "message" => app_lang('invalid_item')));
+            return;
+        }
+        
+        // Load Variant_combinations_model
+        $Variant_combinations_model = model("App\Models\Variant_combinations_model");
+        
+        // Build combination string from selected variants
+        $combination_values = array();
+        if ($variants && is_array($variants)) {
+            foreach ($variants as $variant_id => $option_value) {
+                // Extract the actual value from the option ID
+                $parts = explode("_", $option_value, 2);
+                if (count($parts) > 1) {
+                    $combination_values[] = $parts[1];
+                }
+            }
+        }
+        
+        // Sort to ensure consistent combination matching
+        sort($combination_values);
+        $combination_string = implode("-", $combination_values);
+        
+        // Look for matching combination
+        $combination = $Variant_combinations_model->get_one_where(array(
+            "item_id" => $item_id,
+            "combination" => $combination_string,
+            "status" => 1,
+            "deleted" => 0
+        ));
+        
+        $price_adjustment = 0;
+        $stock_status = "in_stock";
+        
+        if ($combination) {
+            // Use combination-specific price if available
+            if ($combination->price) {
+                $price_adjustment = $combination->price;
+            }
+            
+            // Check stock
+            if ($combination->stock !== null && $combination->stock <= 0) {
+                $stock_status = "out_of_stock";
+            }
+        } else {
+            // Calculate price based on individual variant modifiers
+            $Variants_model = model("App\Models\Variants_model");
+            
+            foreach ($variants as $variant_id => $option_value) {
+                $variant = $Variants_model->get_one($variant_id);
+                if ($variant && $variant->price_modifier_type && $variant->price_modifier_value) {
+                    if ($variant->price_modifier_type === 'fixed') {
+                        $price_adjustment += $variant->price_modifier_value;
+                    } else if ($variant->price_modifier_type === 'percentage') {
+                        // This would need the base price to calculate percentage
+                        // For now, we'll handle this in the pricing engine
+                    }
+                
+                    /**
+                     * Get item dimensions by item_id
+                     */
+                    public function get_item_dimensions()
+                    {
+                        $this->access_only_team_members();
+                        $this->validate_access_to_items();
+                
+                        $this->validate_submitted_data([
+                            "item_id" => "required|numeric"
+                        ]);
+                
+                        $item_id = $this->request->getPost('item_id');
+                        $ItemDimensions_model = model("App\Models\ItemDimensions_model");
+                        $dimensions = $ItemDimensions_model->get_by_item_id($item_id);
+                
+                        if ($dimensions) {
+                            echo json_encode([
+                                "success" => true,
+                                "dimensions" => $dimensions
+                            ]);
+                        } else {
+                            echo json_encode([
+                                "success" => false,
+                                "message" => app_lang('no_dimensions_found')
+                            ]);
+                        }
+                    }
+                
+                    /**
+                     * Save or update item dimensions
+                     */
+                    public function save_item_dimensions()
+                    {
+                        $this->access_only_team_members();
+                        $this->validate_access_to_items();
+                
+                        $this->validate_submitted_data([
+                            "item_id" => "required|numeric",
+                            "width" => "required|numeric",
+                            "height" => "required|numeric",
+                            "unit" => "required"
+                        ]);
+                
+                        $item_id = $this->request->getPost('item_id');
+                        $width = $this->request->getPost('width');
+                        $height = $this->request->getPost('height');
+                        $unit = $this->request->getPost('unit');
+                
+                        $ItemDimensions_model = model("App\Models\ItemDimensions_model");
+                        $result = $ItemDimensions_model->save_or_update([
+                            "item_id" => $item_id,
+                            "width" => $width,
+                            "height" => $height,
+                            "unit" => $unit
+                        ]);
+                
+                        if ($result) {
+                            echo json_encode([
+                                "success" => true,
+                                "message" => app_lang('record_saved')
+                            ]);
+                        } else {
+                            echo json_encode([
+                                "success" => false,
+                                "message" => app_lang('error_occurred')
+                            ]);
+                        }
+                    }
+                }
+            }
+        }
+        
+        echo json_encode(array(
+            "success" => true,
+            "price_adjustment" => $price_adjustment,
+            "stock_status" => $stock_status,
+            "combination" => $combination ? $combination : null
+        ));
+    }
+    
+    private function _item_row_data($id) {
+    }
         return array(
             "item_data" => $item_data
         );
